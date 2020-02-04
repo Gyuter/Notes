@@ -68,7 +68,7 @@ print(a[8])
    $$
    其中x为n维，y为m维，A是$n\times m$维，b是标量；如果输出的维度是多维，则有多组$A$和$b$，参数的数量为
    $$
-   in1\_features\times in2\_features \times out\_features+out\_features
+   in1\_ features\times in2\_ features \times out\_ features+out\_ features
    $$
    
 2. nn.Embedding()
