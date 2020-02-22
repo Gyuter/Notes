@@ -1,23 +1,50 @@
 #### 读代码时产生的python笔记
 
-##### 1.  内置list与numpy数组支持的切片功能不尽相同
+##### 1.  内置list与numpy数组支持的基本功能也不尽相同
+
+多维数组访问单个元素的方式不同，np数组支持一个[]中用逗号分开的多个数值访问多维数组的元素，但是普通的列表只能使用一系列[]，究其原因，是np数组以元组为参数重载了setitem和getitem。
 
 ```python
 import numpy as np
-a=[[i*10+j  for j in range(10)] for i in range(10)]
-b=a
-a=np.array(a)
-rmask=[0,1,3,4]
-cmask=[0,1,3,4]
-print(a[rmask,cmask])
-print(b[rmask,cmask])
-
-#输出为
-[ 0 11 33 44]
+b=[[0 for i in range(10)] for j in range(10)]
+a=np.array(b)
+print(a[0][0])
+print(a[0,0])
+print(b[0][0])
+print(b[0,0])
+#输出
+0
+0
+0
 Traceback (most recent call last):
-  File "c:/Users/15120/Desktop/crap.py", line 8, in <module>
-    print(b[rmask,cmask])
+  File "c:/Users/15120/Desktop/a.py", line 8, in <module>
+    print(b[0,0])
 TypeError: list indices must be integers or slices, not tuple
+```
+
+python内置数组不支持高维坐标确定对低维切片，具体表现如下
+
+真乱，以后还是老老实实用np数组切片吧
+
+```python
+a=[[j*10+i for i in range(10)] for j in range(10)]
+print(a[5][4])
+#54
+print(a[0][2:])
+#[2, 3, 4, 5, 6, 7, 8, 9]
+#上面看起来还是一切正常对吧？下面就鬼畜了
+print(a[:][0])
+#[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#本意是取出所有行的第0列，结果输出了第0行
+print(a[2:][0])
+#[20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+#本意是输出第2行及以后的第0列，结果输出了第二行
+print(a[2:][1])
+#[30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+#最鬼畜的来了
+print(a[:][:][0][:][:])
+#[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#没想到吧 这也行！
 ```
 
 ##### 2. defaultdict
