@@ -22,9 +22,7 @@ Traceback (most recent call last):
 TypeError: list indices must be integers or slices, not tuple
 ```
 
-python内置数组不支持高维坐标确定对低维切片，具体表现如下
-
-真乱，以后还是老老实实用np数组切片吧
+python内置数组切片时的表现与numpy非常不同。每个[]都是对上一个[]产生的新列表的下标的操作。
 
 ```python
 a=[[j*10+i for i in range(10)] for j in range(10)]
